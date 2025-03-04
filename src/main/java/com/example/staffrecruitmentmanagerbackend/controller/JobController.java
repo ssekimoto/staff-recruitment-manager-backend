@@ -54,22 +54,6 @@ public class JobController {
         return ResponseEntity.ok(updatedJob);
     }
 
-    // 給与情報のみを更新 (追加)
-    @PatchMapping("/{id}/salary")
-    public ResponseEntity<Job> updateJobSalary(@PathVariable Long id, @RequestBody Map<String, Double> salaryUpdate) {
-        Job job = jobRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Job not found with id " + id));
-
-        if (salaryUpdate.containsKey("salary")) {
-            job.setSalary(salaryUpdate.get("salary"));
-            Job updatedJob = jobRepository.save(job);
-            return ResponseEntity.ok(updatedJob);
-        } else {
-            return ResponseEntity.badRequest().body("Missing 'salary' key in request body"); // "salary" キーがない場合はエラー
-        }
-    }
-
-
     // 求人情報を削除
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteJob(@PathVariable Long id) {
