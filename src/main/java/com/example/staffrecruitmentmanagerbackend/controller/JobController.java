@@ -1,6 +1,7 @@
 package com.example.staffrecruitmentmanagerbackend.controller;
 
 import com.example.staffrecruitmentmanagerbackend.model.Job;
+import java.util.Map;
 import com.example.staffrecruitmentmanagerbackend.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -56,16 +57,16 @@ public class JobController {
 
     // 給与情報のみを更新 (追加)
     @PatchMapping("/{id}/salary")
-    public ResponseEntity<Job> updateJobSalary(@PathVariable Long id, @RequestBody Map<String, Double> salaryUpdate) {
+    public ResponseEntity<?> updateJobSalary(@PathVariable Long id, @RequestBody Map<String, String> salaryUpdate) {
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Job not found with id " + id));
 
         if (salaryUpdate.containsKey("salary")) {
             job.setSalary(salaryUpdate.get("salary"));
             Job updatedJob = jobRepository.save(job);
-            return ResponseEntity.ok(updatedJob);
+            return ResponseEntity.ok(updatedJob); 
         } else {
-            return ResponseEntity.badRequest().body("Missing 'salary' key in request body"); // "salary" キーがない場合はエラー
+            return ResponseEntity.badRequest().body("{\"error\": \"Missing 'salary' key in request body\"}");
         }
     }
 
