@@ -65,7 +65,7 @@ public class JobController {
             Job updatedJob = jobRepository.save(job);
             return ResponseEntity.ok(updatedJob);
         } else {
-            return ResponseEntity.badRequest().body(null); // "salary" キーがない場合はエラー
+            return ResponseEntity.badRequest().body("Missing 'salary' key in request body"); // "salary" キーがない場合はエラー
         }
     }
 
