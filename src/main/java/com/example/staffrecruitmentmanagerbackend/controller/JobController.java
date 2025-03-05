@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/jobs")
@@ -63,9 +64,9 @@ public class JobController {
         if (salaryUpdate.containsKey("salary")) {
             job.setSalary(salaryUpdate.get("salary"));
             Job updatedJob = jobRepository.save(job);
-            return ResponseEntity.ok(updatedJob); 
+            return ResponseEntity.ok(updatedJob);
         } else {
-            return ResponseEntity.badRequest().body("Missing 'salary' key in request body"); // "salary" キーがない場合はエラー
+            return ResponseEntity.badRequest().body(null); // "salary" キーがない場合はエラー
         }
     }
 

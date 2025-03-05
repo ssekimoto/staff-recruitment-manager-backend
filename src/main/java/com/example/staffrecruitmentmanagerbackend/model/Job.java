@@ -19,6 +19,14 @@ public class Job {
     private String location;
     private String deadline;
     private String description;
+    public void setSalary(String double1) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setSalary'");
+    }
+    public void setSalary(Double double1) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setSalary'");
+    }
 
 }
 
