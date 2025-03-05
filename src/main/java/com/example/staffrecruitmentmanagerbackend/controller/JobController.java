@@ -63,7 +63,7 @@ public class JobController {
         if (salaryUpdate.containsKey("salary")) {
             job.setSalary(salaryUpdate.get("salary"));
             Job updatedJob = jobRepository.save(job);
-            return ResponseEntity.ok(updatedJob);
+            return ResponseEntity.ok(updatedJob); 
         } else {
             return ResponseEntity.badRequest().body("Missing 'salary' key in request body"); // "salary" キーがない場合はエラー
         }
