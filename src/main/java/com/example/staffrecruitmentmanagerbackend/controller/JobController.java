@@ -10,8 +10,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/jobs")
 @CrossOrigin(origins = "*")
-
-
 public class JobController {
 
     @Autowired
@@ -54,21 +52,6 @@ public class JobController {
         return ResponseEntity.ok(updatedJob);
     }
 
-    // 給与情報のみを更新 (追加)
-    @PatchMapping("/{id}/salary")
-    public ResponseEntity<Job> updateJobSalary(@PathVariable Long id, @RequestBody Map<String, Double> salaryUpdate) {
-        Job job = jobRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Job not found with id " + id));
-
-        if (salaryUpdate.containsKey("salary")) {
-            job.setSalary(salaryUpdate.get("salary"));
-            Job updatedJob = jobRepository.save(job);
-            return ResponseEntity.ok(updatedJob); 
-        } else {
-            return ResponseEntity.badRequest().body("Missing 'salary' key in request body"); // "salary" キーがない場合はエラー
-        }
-    }
-
 
     // 求人情報を削除
     @DeleteMapping("/{id}")
@@ -78,5 +61,16 @@ public class JobController {
 
         jobRepository.delete(job);
         return ResponseEntity.noContent().build();
+    }
+
+    // 求人情報を検索
+    @GetMapping("/search")
+    public List<Job> searchJobs(@RequestParam String keyword) {
+        // キーワードが空またはnullの場合は、空のリストを返すか、エラー処理を行うことも検討できます。
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return List.of(); // 空のリストを返す例
+        }
+        // 同じキーワードを3回渡して、タイトル、勤務地、職種のいずれかで検索
+        return jobRepository.findByTitleContainingIgnoreCaseOrLocationContainingIgnoreCaseOrTypeContainingIgnoreCase(keyword, keyword, keyword);
     }
 }
